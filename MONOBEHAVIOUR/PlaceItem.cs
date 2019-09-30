@@ -8,8 +8,6 @@ public class PlaceItem : MonoBehaviour
     public GameObject road;
     [Header("Item to place")]
     public GameObject item;
-    [Header("GameObject to follow mouse")]
-    public GameObject towerFollowMouse;
     [Header("Circle that changes color on invalid")]
     public GameObject RadiusCircle;
     private SpriteRenderer radiusCircleSR;
@@ -37,8 +35,9 @@ public class PlaceItem : MonoBehaviour
 
     void Update()
     {
-        
+        if (hasItemInHand) {
         UpdatePlaceAble();
+        }
         //Place();
     }
 
@@ -79,17 +78,21 @@ public class PlaceItem : MonoBehaviour
         }
     }
 
+    #region Hold Methods
     //Change item cursor is holding
-    public void Hold(GameObject towerDummy, GameObject realTower) {
-        towerFollowMouse = towerDummy;
+    public void Hold(GameObject towerDummy,GameObject realTower) {
         item = realTower;
         Instantiate(towerDummy,transform);
         hasItemInHand = true;
     }
     public void RemoveHold() {
+        item = null;
         hasItemInHand = false;
+        gameObject.GetComponentsInChildren<GameObjectFollowCursor>()[0].DestroyDummyTower();
     }
+    #endregion
 
+    #region color changer
     public void changeColor(Color c) {
         c.a = .25f;
         if(c != radiusCircleSR.color) {
@@ -97,7 +100,9 @@ public class PlaceItem : MonoBehaviour
             radiusCircleSR.color = c;
         }
     }
+    #endregion
 
+    #region Place Method
     public void Place() {
         if(Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {
 
@@ -108,12 +113,16 @@ public class PlaceItem : MonoBehaviour
                 Instantiate(item, cursorPosition, gameObject.transform.rotation);
             }
         }else if (Input.GetMouseButtonDown(1)) {
-            //Right Click
+            RemoveHold();
         }
     }
+    #endregion
+
+    #region get cursor positon
     public Vector3 getCursorPosition() {
         Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pz.z = 0;
         return pz;
     }
+    #endregion
 }
