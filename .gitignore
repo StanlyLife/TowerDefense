@@ -5,6 +5,11 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 
+#Personal choise
+*.meta
+*.asset
+*.assets
+
 # Visual Studio cache directory
 .vs/
 
