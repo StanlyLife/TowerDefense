@@ -14,6 +14,7 @@ public class PlaceableTrigger : MonoBehaviour
     }
 
     private void OnMouseOver() {
+        print("cannot place");
         canPlace.canBePlaced = false;
         circleChange.changeColor(Color.red);
     }

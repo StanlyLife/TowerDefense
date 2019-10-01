@@ -96,7 +96,6 @@ public class PlaceItem : MonoBehaviour
     public void changeColor(Color c) {
         c.a = .25f;
         if(c != radiusCircleSR.color) {
-            print("changed color");
             radiusCircleSR.color = c;
         }
     }

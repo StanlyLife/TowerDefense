@@ -14,11 +14,13 @@ public class Enemy : ScriptableObject
         public float speed;
         public int health;
         public int maxHealth;
-        public enum enemyType
+        public enemyType EnemyType;
+    }
+    [HideInInspector]
+    public enum enemyType
         {
             basic,fire,water,earth,lightning
         };
-    }
     public float GlobalSpeed;
     public int GlobalHealth;
     public int GlobalMaxHealth;

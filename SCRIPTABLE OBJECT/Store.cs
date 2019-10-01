@@ -13,6 +13,7 @@ public class Store : ScriptableObject
     public int tower3;
     public int tower4;
 
+    #region buy method
     public bool buy(string tower) {
         int price = 0;
 
@@ -44,6 +45,6 @@ public class Store : ScriptableObject
             return false;
         }
     }
-
+    #endregion
 
 }
