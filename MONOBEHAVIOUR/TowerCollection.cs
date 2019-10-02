@@ -12,5 +12,4 @@ public class TowerCollection : MonoBehaviour
     }
     public Tower[] Towers;
 
-
 }
