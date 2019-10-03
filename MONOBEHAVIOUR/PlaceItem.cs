@@ -17,14 +17,8 @@ public class PlaceItem : MonoBehaviour
     [Header("Debugs")]
     public float timeBetweenPlace;
     public float lastTimePlaced;
-
-    //private Color placeFalse = new Color(11,100,90,30);
-
-    
     public bool hasItemInHand = false;
     
-    //TODO UpdatePlaceAble
-        //Find nearest tower, if close to bounds, canplace = false
 
     public void Start() {
         Instantiate(RadiusCircle, getCursorPosition(), RadiusCircle.transform.rotation);
@@ -35,48 +29,48 @@ public class PlaceItem : MonoBehaviour
 
     void Update()
     {
-        if (hasItemInHand) {
-        UpdatePlaceAble();
-        }
-        //Place();
+        CheckPlaceability();
+        RemovePlace();
     }
 
-    //Check if canPlaceTower = true
-    public void UpdatePlaceAble() {
+    //regions good! https://enterprisecraftsmanship.com/posts/c-regions-is-design-smell/
 
-        //mouseposition
-        Vector3 mousePosition = getCursorPosition();
-        //Get size of gameObject
-        Vector2 itemSize = item.GetComponent<BoxCollider2D>().size;
-        //closest point to cursor of collider
-        Vector2 distanceToCursorFromRoad = road.GetComponent<BoxCollider2D>().bounds.ClosestPoint(getCursorPosition());
-        //distance between road and cursor
-        float cursorDistance = Vector2.Distance(mousePosition, distanceToCursorFromRoad);
+    #region Check Placeability
+    public void CheckPlaceability() {
+        if (hasItemInHand && canBePlaced.canBePlaced) {
+            
 
-        //Find diagonal of Item //Absolutt verdi
-        float itemDiagonal = Mathf.Sqrt(
-            Mathf.Pow(itemSize.x,2)
-            +
-            Mathf.Pow(itemSize.y, 2)
-            );
-        //Should be divided by 2, but dividing by 3 gives more accurate answer
-        float itemRadius = itemDiagonal/3;
+            Vector3 mousePosition = getCursorPosition();
+            Vector2 itemSize = item.GetComponent<BoxCollider2D>().size;
 
+            Vector2 closestRigbodBound = road.GetComponent<Rigidbody2D>().ClosestPoint(getCursorPosition());
+            float distance2 = Vector2.Distance(getCursorPosition(), closestRigbodBound);
+            //DEBUG//print("Distance 2: " + distance2);
 
-        if (itemRadius <= cursorDistance) {
-            //can place
-            changeColor(Color.green);
-            RadiusCircle.SetActive(true);
-            Place();
-        }
-        else if(itemRadius > cursorDistance){
-            //RadiusCircle.SetActive(false);
-            //cannot place
-            changeColor(Color.red);
-        } else {
-            Debug.Log("Error in color changing");
+            //Find diagonal of Item / absolute value
+            
+            float itemDiagonal = Mathf.Sqrt(
+                Mathf.Pow(itemSize.x, 2)
+                +
+                Mathf.Pow(itemSize.y, 2)
+                );
+            //Should be divided by 2, but dividing by 3 gives more accurate answer
+            float itemRadius = itemDiagonal / 3;
+            
+            if (distance2 >= itemRadius) {
+                canBePlaced.canBePlaced = true;
+
+                changeColor(Color.green);
+                Place();
+
+            } else {
+                //canBePlaced.canBePlaced = false;
+                    //^called in placeabletrigger instead
+                changeColor(Color.red);
+            }
         }
     }
+    #endregion
 
     #region Hold Methods
     //Change item cursor is holding
@@ -86,9 +80,11 @@ public class PlaceItem : MonoBehaviour
         hasItemInHand = true;
     }
     public void RemoveHold() {
-        item = null;
-        hasItemInHand = false;
-        gameObject.GetComponentsInChildren<GameObjectFollowCursor>()[0].DestroyDummyTower();
+        if (item != null) {
+            item = null;
+            hasItemInHand = false;
+            gameObject.GetComponentsInChildren<GameObjectFollowCursor>()[0].DestroyDummyTower();
+        }
     }
     #endregion
 
@@ -103,7 +99,8 @@ public class PlaceItem : MonoBehaviour
 
     #region Place Method
     public void Place() {
-        if(Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {
+
+        if (Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {
 
             lastTimePlaced = Time.time + timeBetweenPlace;
             Vector3 cursorPosition = getCursorPosition();
@@ -111,16 +108,21 @@ public class PlaceItem : MonoBehaviour
             if (canBePlaced.canBePlaced) {
                 Instantiate(item, cursorPosition, gameObject.transform.rotation);
             }
-        }else if (Input.GetMouseButtonDown(1)) {
-            RemoveHold();
         }
     }
+    
+    public void RemovePlace() {
+        if (Input.GetMouseButtonDown(1)) {
+            RemoveHold();
+            canBePlaced.canBePlaced = true;
+        }
+    }
+    
     #endregion
 
     #region get cursor positon
-    public Vector3 getCursorPosition() {
-        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        pz.z = 0;
+    public Vector2 getCursorPosition() {
+        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return pz;
     }
     #endregion

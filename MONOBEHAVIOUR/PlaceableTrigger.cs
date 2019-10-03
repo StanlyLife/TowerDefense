@@ -13,14 +13,21 @@ public class PlaceableTrigger : MonoBehaviour
         circleChange = GameObject.FindGameObjectWithTag("ScriptHolder").GetComponent<PlaceItem>();
     }
 
-    private void OnMouseOver() {
-        print("cannot place");
-        canPlace.canBePlaced = false;
-        circleChange.changeColor(Color.red);
+    public void OnTriggerExit2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Dummy") {
+         //print("Can now place");
+         canPlace.canBePlaced = true;
+        }
     }
 
-    private void OnMouseExit() {
-        canPlace.canBePlaced = true;
-        circleChange.changeColor(Color.green);
+    public void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Dummy") {
+            //print("Cannot place dummy here");
+            canPlace.canBePlaced = false;
+            circleChange.changeColor(Color.red);
+        }
     }
+
+
+
 }
