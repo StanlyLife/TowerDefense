@@ -4,25 +4,41 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
+	public enum type{ Basic,Fire,Water,Earth,Lightning};
+	[Header ("Required Attributes")]
+	public type EnemyType;
+	public int health;
+	public float speed;
+	public int damage;
     public Pathfinder path;
     private Transform waypoint;
     private int nextWaypointGoal = 0;
-    private Vector2 enemy;
-    void Start()
+	[Header("Is Game Paused")]
+	public GameSettings gameSettings;
+    private void Start()
     {
-        //enemy = gameObject.GetComponent<Vector2>();
+		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
+		FindGameObjects();
         NextWaypoint();
     }
 
-    void Update()
+    private void Update()
     {
-        move();
+		if (!gameSettings.isPaused) {
+			move();
+		}
     }
 
+    private void FindGameObjects() {
+        path = GameObject.FindGameObjectWithTag("Pathfinder").GetComponent<Pathfinder>();
+    }
 
-    private void move() {
+    public void move() {
         if (NextWaypoint() != null) {
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, NextWaypoint().position, 3 * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(gameObject.transform.position, NextWaypoint().position, speed * Time.deltaTime * gameSettings.gameSpeed);
+        } else {
+            print("NextWaypoint() == null, destroyed enemy");
+            Destroy(gameObject);
         }
     }
 
@@ -33,11 +49,10 @@ public class EnemyMove : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D waypoint) {
         if (waypoint.tag.ToLower() == "waypoint") {
-            print("getting next waypoint");
             nextWaypointGoal++;
             NextWaypoint();
         } else if(waypoint.tag.ToLower() == "end"){
-            //do damage
+			gameSettings.takeDamage(damage);
             Destroy(gameObject);
         }
     }

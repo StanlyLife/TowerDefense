@@ -10,7 +10,7 @@ public class PlaceItem : MonoBehaviour
     public GameObject item;
     [Header("Circle that changes color on invalid")]
     public GameObject RadiusCircle;
-    private SpriteRenderer radiusCircleSR;
+    private RadiusCircle radiusCircleScript;
     [Header("Placeable Script")]
     public Placeable canBePlaced;
 
@@ -18,13 +18,14 @@ public class PlaceItem : MonoBehaviour
     public float timeBetweenPlace;
     public float lastTimePlaced;
     public bool hasItemInHand = false;
-    
 
     public void Start() {
         Instantiate(RadiusCircle, getCursorPosition(), RadiusCircle.transform.rotation);
         RadiusCircle = GameObject.FindGameObjectWithTag("Circle");
-        radiusCircleSR = RadiusCircle.GetComponent<SpriteRenderer>();
+        radiusCircleScript = RadiusCircle.GetComponent<RadiusCircle>();
         road = GameObject.FindGameObjectWithTag("Road");
+
+
     }
 
     void Update()
@@ -41,7 +42,7 @@ public class PlaceItem : MonoBehaviour
             
 
             Vector3 mousePosition = getCursorPosition();
-            Vector2 itemSize = item.GetComponent<BoxCollider2D>().size;
+            Vector2 itemSize = item.GetComponentInChildren<BoxCollider2D>().size;
 
             Vector2 closestRigbodBound = road.GetComponent<Rigidbody2D>().ClosestPoint(getCursorPosition());
             float distance2 = Vector2.Distance(getCursorPosition(), closestRigbodBound);
@@ -60,13 +61,14 @@ public class PlaceItem : MonoBehaviour
             if (distance2 >= itemRadius) {
                 canBePlaced.canBePlaced = true;
 
-                changeColor(Color.green);
+				radiusCircleScript.SetColor(Color.green,false);
                 Place();
 
             } else {
+				radiusCircleScript.SetColor(Color.red,false);
                 //canBePlaced.canBePlaced = false;
                     //^called in placeabletrigger instead
-                changeColor(Color.red);
+                
             }
         }
     }
@@ -88,21 +90,12 @@ public class PlaceItem : MonoBehaviour
     }
     #endregion
 
-    #region color changer
-    public void changeColor(Color c) {
-        c.a = .25f;
-        if(c != radiusCircleSR.color) {
-            radiusCircleSR.color = c;
-        }
-    }
-    #endregion
 
     #region Place Method
     public void Place() {
 
         if (Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {
-
-            lastTimePlaced = Time.time + timeBetweenPlace;
+			lastTimePlaced = Time.time + timeBetweenPlace;
             Vector3 cursorPosition = getCursorPosition();
 
             if (canBePlaced.canBePlaced) {
@@ -113,6 +106,7 @@ public class PlaceItem : MonoBehaviour
     
     public void RemovePlace() {
         if (Input.GetMouseButtonDown(1)) {
+			radiusCircleScript.SetColor(Color.white,true);
             RemoveHold();
             canBePlaced.canBePlaced = true;
         }

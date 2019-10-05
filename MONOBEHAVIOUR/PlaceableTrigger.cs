@@ -7,24 +7,24 @@ public class PlaceableTrigger : MonoBehaviour
     [Header ("Placeable Script")]
     [Tooltip ("Change canPlace attribute true & false")]public Placeable canPlace;
     [Header("HandHolder Script")]
-    [Tooltip ("change color of the radius circle")]public PlaceItem circleChange;
+    [Tooltip ("change color of the radius circle")]public RadiusCircle circleChange;
 
-    private void Start() {
-        circleChange = GameObject.FindGameObjectWithTag("ScriptHolder").GetComponent<PlaceItem>();
-    }
 
-    public void OnTriggerExit2D(Collider2D collision) {
-        if (collision.gameObject.tag == "Dummy") {
+
+
+    public void OnTriggerExit2D(Collider2D collision ) {
+        if (collision.gameObject.tag == "Dummy" && collision is BoxCollider2D) {
          //print("Can now place");
          canPlace.canBePlaced = true;
         }
     }
 
     public void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.tag == "Dummy") {
+        if (collision.gameObject.tag == "Dummy" && collision is BoxCollider2D) {
+			circleChange = GameObject.FindGameObjectWithTag("Circle").GetComponent<RadiusCircle>();
             //print("Cannot place dummy here");
             canPlace.canBePlaced = false;
-            circleChange.changeColor(Color.red);
+			circleChange.SetColor(Color.red,false);
         }
     }
 
