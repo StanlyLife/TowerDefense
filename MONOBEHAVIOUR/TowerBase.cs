@@ -30,7 +30,6 @@ public class TowerBase : MonoBehaviour
 	public float timeBetweenProjectiles;
 
 	[Header("DEBUG")]
-	[HideInInspector]
     public List<GameObject> enemyList = new List<GameObject>();
 	//[HideInInspector]
 	public float lastProjectileTime;
@@ -46,8 +45,7 @@ public class TowerBase : MonoBehaviour
     }
 
 
-
-    private void RotateHeadToRoad() {
+	private void RotateHeadToRoad() {
         Vector3 direction = FindRoad() - headHolder.transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + normaliseRotationBy;
 
@@ -55,15 +53,27 @@ public class TowerBase : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Enemy") {
+        if (collision.CompareTag("Enemy")) {
             enemyList.Add(collision.gameObject);
+/*
+			foreach(GameObject go in enemyList) {
+				if (go == null) {
+					enemyList.Remove(go);
+				}
+			}
+*/
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision) {
-        if (collision.tag == "Enemy" && enemyList.Count > 0) {
-            enemyList.RemoveAt(0);
-        }
+        if (collision.CompareTag("Enemy") && enemyList.Count > 0) {
+			try {
+				enemyList.RemoveAt(0);
+			} catch (System.Exception e) when (e is System.InvalidOperationException) {
+					Debug.Log("ERROR in OnTriggetrExit2D() TowerBase: " + e);
+					Destroy(gameObject);
+			}
+		}
     }
 
 

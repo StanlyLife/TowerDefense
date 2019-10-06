@@ -20,16 +20,59 @@ public class Tower1 : TowerBase
     }
 	public void FollowEnemy() {
 		if (enemyList.Count > 0) {
-
 			if (targetPriority == target.first) {
-				enemyInFocus = enemyList[0];
-				lookAt(enemyList[0]);
+				enemyInFocus = GetEnemyInFocus(target.first);
 			} else if (targetPriority == target.last) {
-				enemyInFocus = enemyList[enemyList.Count - 1];
-				lookAt(enemyList[enemyList.Count - 1]);
+				enemyInFocus = GetEnemyInFocus(target.last);
 			}
+			if(enemyInFocus != null) {
+				lookAt(enemyInFocus);
+				fire();
+			}
+		}
+	}
 
-			fire();
+	private GameObject GetEnemyInFocus(target x) {
+		try {
+
+		switch (x) {
+			case target.first: //get first target
+				foreach (GameObject enemy in enemyList) {
+						if(enemy != null) {
+							return enemy;
+						} else {
+							enemyList.Remove(enemy);
+						}
+				}return null;
+
+			case target.last: //get last target
+				for(int i = enemyList.Count-1; i >= 0; i--) {
+					if(enemyList[i] != null) {
+						return enemyList[i];
+					} else {
+						enemyList.RemoveAt(i);
+					}
+				}return null;
+
+
+			case target.strong:
+				//placeholder
+				return enemyList[0];
+			case target.weak:
+				//placeholder
+				return enemyList[0];
+			default:
+				//placeholder
+				return enemyList[0];
+		}
+		}catch(System.Exception e) {
+			if(e is System.InvalidOperationException) {
+				return null;
+			} else {
+				Debug.Log("ERROR in GetEnemyInFocus() Tower1: " + e);
+				Destroy(gameObject);
+				return null;
+			}
 		}
 	}
 
