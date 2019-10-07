@@ -6,20 +6,29 @@ public class EnemyMove : MonoBehaviour
 {
 	public enum type{ Basic,Fire,Water,Earth,Lightning};
 	[Header ("Required Attributes")]
-	public type EnemyType;
 	public int health;
-	public float speed;
 	public int damage;
-    public Pathfinder path;
-    private Transform waypoint;
-    private int nextWaypointGoal = 0;
+	public float speed;
+	public type EnemyType;
+
 	[Header("Is Game Paused")]
 	public GameSettings gameSettings;
+
+	[Header("Debugs")]
+	public int currentWaypoint = 0;
+	public int numOfWaypoints;
+    public Pathfinder path;
+    public Transform nextWaypoint;
+	public Transform[] pathArray;
+
     private void Start()
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
-		FindGameObjects();
-        NextWaypoint();
+
+		damage += gameSettings.difficulty;
+		speed += gameSettings.difficulty;
+		
+		findPath();
     }
 
     private void Update()
@@ -29,37 +38,46 @@ public class EnemyMove : MonoBehaviour
 		}
     }
 
-    private void FindGameObjects() {
-        path = GameObject.FindGameObjectWithTag("Pathfinder").GetComponent<Pathfinder>();
-    }
+
 
     public void move() {
-        if (NextWaypoint() != null) {
-            transform.position = Vector2.MoveTowards(gameObject.transform.position, NextWaypoint().position, speed * Time.deltaTime * gameSettings.gameSpeed);
-        } else {
-            print("NextWaypoint() == null, destroyed enemy");
-            Destroy(gameObject);
-        }
+		GetPosition(); //updates waypoint
+            transform.position = 
+			Vector2.MoveTowards(
+				gameObject.transform.position, 
+				nextWaypoint.position, 
+				speed * Time.deltaTime * gameSettings.gameSpeed
+				);
     }
-
-    private Transform NextWaypoint() {
-        waypoint = path.waypoints.waypoints[nextWaypointGoal];
-        return waypoint;
-    }
-
-    public void OnTriggerEnter2D(Collider2D waypoint) {
-        if (waypoint.tag.ToLower() == "waypoint") {
-            nextWaypointGoal++;
-            NextWaypoint();
-        } else if(waypoint.tag.ToLower() == "end"){
+	private void findPath() { //Called once on instantiation of Enemy
+		path = gameObject.GetComponentInParent<Pathfinder>();
+		numOfWaypoints = path.waypoints.Length;
+		pathArray = path.waypoints;
+		nextWaypoint = pathArray[0];
+		if(path == null || numOfWaypoints == 0) {
+			print("Spawner parent does not have <Pathfinder>");
+		}
+	}
+	private void GetPosition() {
+		float distance = Vector2.Distance(gameObject.transform.position,nextWaypoint.position);
+		if (distance < .1f) {
+			StartCoroutine(getNextWaypoint());
+		}
+	}
+	IEnumerator getNextWaypoint() {
+		currentWaypoint++;
+		if (currentWaypoint >= numOfWaypoints) {
 			gameSettings.takeDamage(damage);
-            Destroy(gameObject);
-        }
-    }
-
+			Destroy(gameObject);
+		} else {
+			nextWaypoint = pathArray[currentWaypoint];
+		}
+		yield return new WaitForSeconds(1/gameSettings.gameSpeed);	
+	}
 	public void TakeDamage(int damage) {
 		health -= damage;
-		if (health >= 0) {
+		if (health <= 0) {
+			gameSettings.MapMoney += damage;
 			Destroy(gameObject);
 		}
 	}
