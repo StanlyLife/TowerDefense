@@ -9,7 +9,7 @@ public class ProjectileBase : MonoBehaviour
 	[Header("DEBUGS")]
 	[SerializeField]
 	private float speed;
-	private Vector2 target;
+	//private Vector2 target;
 	private Vector3 lastPos;
 
 	private void Awake() {
@@ -34,7 +34,7 @@ public class ProjectileBase : MonoBehaviour
 
 	public void MoveToEnemy() {
 		//speed *= globalVariables.gameSpeed;
-		if (target == null || transform.position == lastPos) {
+		if (transform.position == lastPos) {
 			Destroy(gameObject);
 		}
 
