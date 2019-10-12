@@ -17,7 +17,7 @@ public class Waves : ScriptableObject
 		public	float[] timeBetweenEnemies;
 	}
 	
-	public WaveDifficulty[] WaveDifficulties;
+	public WaveDifficulty WaveDifficulties;
 
 
 }

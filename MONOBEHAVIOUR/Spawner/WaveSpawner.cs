@@ -7,19 +7,21 @@ public class WaveSpawner : MonoBehaviour
 	[Header ("Insert in inspector")]
 	public GameSettings gameSettings;
 	public Waves wavesObject;
+	[Header ("Number of spawners")]
 	public Spawner[] spawnerArray;
-	[Header ("Debugs")]
-	public Waves.WaveDifficulty waveDifficulty;
-	public Waves.Wave currentWave;
+	[Header("Debugs")]
+	public Waves.WaveDifficulty[] difficulty;
+	private Waves.WaveDifficulty waveDifficulty;
+	private Waves.Wave currentWave;
 
-	public int numOfWaves;
-	public int numOfEnemiesToSpawn;
+	private int numOfWaves;
+	private int numOfEnemiesToSpawn;
 
-	public int currentWaveNumber;
+	private int currentWaveNumber;
 
-	public bool isDoneSpawning;
+	private bool isDoneSpawning;
 
-	public int numberOfSpawners;
+	private int numberOfSpawners;
 
 	public void Start() {
 		setAttributes();
@@ -64,7 +66,7 @@ public class WaveSpawner : MonoBehaviour
 
 	private void setAttributes() {
 		try {
-			waveDifficulty = wavesObject.WaveDifficulties[gameSettings.difficulty];
+			waveDifficulty = difficulty[gameSettings.difficulty];
 			currentWave = waveDifficulty.WaveNumber[currentWaveNumber /*wave number*/];
 			numOfWaves = waveDifficulty.WaveNumber.Length;
 		}catch (System.Exception e) when (e is System.IndexOutOfRangeException) {
