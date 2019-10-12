@@ -21,7 +21,7 @@ public class EnemyMove : MonoBehaviour
     public Transform nextWaypoint;
 	public Transform[] pathArray;
 
-    private void Start()
+    protected virtual void Start()
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
 
