@@ -66,6 +66,7 @@ public class WaveSpawner : MonoBehaviour
 
 	private void setAttributes() {
 		try {
+
 			waveDifficulty = difficulty[gameSettings.difficulty];
 			currentWave = waveDifficulty.WaveNumber[currentWaveNumber /*wave number*/];
 			numOfWaves = waveDifficulty.WaveNumber.Length;
