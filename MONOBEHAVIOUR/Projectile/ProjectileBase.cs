@@ -15,7 +15,7 @@ public class ProjectileBase : MonoBehaviour
 	private void Awake() {
 		FindGameObjects();
 	}
-	public void Start() {
+	protected virtual void Start() {
 		Destroy(gameObject, parent.projectileLife);
 	}
 
