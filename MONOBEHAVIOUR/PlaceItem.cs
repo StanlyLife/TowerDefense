@@ -39,22 +39,23 @@ public class PlaceItem : MonoBehaviour
     #region Check Placeability
     public void CheckPlaceability() {
         if (hasItemInHand && canBePlaced.canBePlaced) {
-            
 
-            Vector3 mousePosition = getCursorPosition();
-            Vector2 itemSize = item.GetComponentInChildren<BoxCollider2D>().size;
+			Vector3 mousePosition = getCursorPosition();
 
-            Vector2 closestRigbodBound = road.GetComponent<Rigidbody2D>().ClosestPoint(getCursorPosition());
-            float distance2 = Vector2.Distance(getCursorPosition(), closestRigbodBound);
+			Vector2 itemSize;
+			itemSize = item.GetComponentInChildren<BoxCollider2D>().size;
+
+            Vector2 closestRigbodBound = road.GetComponent<Rigidbody2D>().ClosestPoint(mousePosition);
+            float distance2 = Vector2.Distance(mousePosition, closestRigbodBound);
             //DEBUG//print("Distance 2: " + distance2);
 
             //Find diagonal of Item / absolute value
+			float itemDiagonal = Mathf.Sqrt(
+				Mathf.Pow(itemSize.x, 2)
+				+
+				Mathf.Pow(itemSize.y, 2)
+				);
             
-            float itemDiagonal = Mathf.Sqrt(
-                Mathf.Pow(itemSize.x, 2)
-                +
-                Mathf.Pow(itemSize.y, 2)
-                );
             //Should be divided by 2, but dividing by 3 gives more accurate answer
             float itemRadius = itemDiagonal / 3;
             

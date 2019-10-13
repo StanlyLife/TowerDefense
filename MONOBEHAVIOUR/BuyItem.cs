@@ -11,8 +11,13 @@ public class BuyItem : MonoBehaviour
     
     public void buyTower1() {
         if (store.buy("tower1")) {
-            print("pressed Button");
             cursor.Hold(towerCollection.Towers[0].DummyTower.gameObject , towerCollection.Towers[0].RealTower.gameObject);
+        }
+    }
+	public void buyTower2() {
+        if (store.buy("tower2")) {
+            cursor.Hold(towerCollection.Towers[1].DummyTower.gameObject , towerCollection.Towers[1
+				].RealTower.gameObject);
         }
     }
 }

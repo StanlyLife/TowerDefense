@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileBase : MonoBehaviour
 {
 	public GameSettings gameSettings;
-	public TowerBase parent;
+	public Tower1 parent;
 	[Header("DEBUGS")]
 	[SerializeField]
 	private float speed;
@@ -24,10 +24,9 @@ public class ProjectileBase : MonoBehaviour
 			gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
 		}
 		if (parent == null) {
-			parent = gameObject.GetComponentInParent<TowerBase>();
+			parent = gameObject.GetComponentInParent<Tower1>();
 		}
 		speed = parent.projectileSpeed;
-		//target = parent2.enemyInFocus.transform.position;
 
 	}
 
