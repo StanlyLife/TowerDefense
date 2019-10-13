@@ -11,7 +11,7 @@ public class ProjectileBase : MonoBehaviour
 	[SerializeField]
 	private float speed;
 	private Vector3 lastPos;
-	protected Tower1 parent;
+	protected TowerBase parent;
 
 	private void Awake() {
 		FindGameObjects();
@@ -25,10 +25,9 @@ public class ProjectileBase : MonoBehaviour
 			gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
 		}
 		if (parent == null) {
-			parent = gameObject.GetComponentInParent<Tower1>();
+			parent = gameObject.GetComponentInParent<TowerBase>();
 		}
 		speed = parent.projectileSpeed;
-
 	}
 
 

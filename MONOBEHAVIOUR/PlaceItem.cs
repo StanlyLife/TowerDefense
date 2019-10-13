@@ -8,6 +8,7 @@ public class PlaceItem : MonoBehaviour
     public GameObject road;
     [Header("Item to place")]
     public GameObject item;
+    private GameObject dummyItem;
     [Header("Circle that changes color on invalid")]
     public GameObject RadiusCircle;
     private RadiusCircle radiusCircleScript;
@@ -38,12 +39,12 @@ public class PlaceItem : MonoBehaviour
 
     #region Check Placeability
     public void CheckPlaceability() {
-        if (hasItemInHand && canBePlaced.canBePlaced) {
+        if (hasItemInHand && canBePlaced.canBePlaced ) {
 
 			Vector3 mousePosition = getCursorPosition();
 
 			Vector2 itemSize;
-			itemSize = item.GetComponentInChildren<BoxCollider2D>().size;
+			itemSize = dummyItem.GetComponentInChildren<BoxCollider2D>().size;
 
             Vector2 closestRigbodBound = road.GetComponent<Rigidbody2D>().ClosestPoint(mousePosition);
             float distance2 = Vector2.Distance(mousePosition, closestRigbodBound);
@@ -78,13 +79,21 @@ public class PlaceItem : MonoBehaviour
     #region Hold Methods
     //Change item cursor is holding
     public void Hold(GameObject towerDummy,GameObject realTower) {
+
+		if (towerDummy == null || realTower == null){
+			print("CHECK TOWER COLLECTION");
+			throw new System.NullReferenceException("One or multiple towers following cursor is null");
+		}
+
         Instantiate(towerDummy,transform);
+		dummyItem = towerDummy;
         item = realTower;
         hasItemInHand = true;
     }
     public void RemoveHold() {
         if (item != null) {
             item = null;
+			dummyItem = null;
             hasItemInHand = false;
             gameObject.GetComponentsInChildren<GameObjectFollowCursor>()[0].DestroyDummyTower();
         }
@@ -99,9 +108,11 @@ public class PlaceItem : MonoBehaviour
 			lastTimePlaced = Time.time + timeBetweenPlace;
             Vector3 cursorPosition = getCursorPosition();
 
-            if (canBePlaced.canBePlaced) {
+            if (canBePlaced.canBePlaced && item != null) {
                 Instantiate(item, cursorPosition, gameObject.transform.rotation);
-            }
+			} else {
+				print("cannot place, check Place()");
+			}
         }
     }
     
