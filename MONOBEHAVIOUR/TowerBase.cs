@@ -10,7 +10,6 @@ public class TowerBase : MonoBehaviour
 	[Header("Game Settings")]
 	public GameSettings gameSettings;
     [Header ("Base attributes")]
-    public int damage;
     public int upgrade;
 	public float targetRadius;
     public target targetPriority;
@@ -25,6 +24,7 @@ public class TowerBase : MonoBehaviour
 
 	[Header("Projectile attributes")]
 	public GameObject GoProjectile;
+    public int damage;
 	public float projectileSpeed;
 	public float projectileLife;
 	public float timeBetweenProjectiles;

@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class DummyTower : MonoBehaviour
 {
-	[Header("Debug")]
+	[Header("Ïnsert in inspector")]
 	public TowerBase realTower;
-	[SerializeField]
+
 	private float targetRadius;
-	[SerializeField]
 	private RadiusCircle circle;
 	void Start()
     {

@@ -19,7 +19,7 @@ public class WaveSpawner : MonoBehaviour
 
 	private int currentWaveNumber;
 
-	private bool isDoneSpawning;
+	public bool isDoneSpawning;
 
 	private int numberOfSpawners;
 

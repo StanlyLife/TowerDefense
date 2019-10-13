@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
 {
+	[Header ("Insert in inspector")]
 	public GameSettings gameSettings;
-	public TowerBase parent;
+
 	[Header("DEBUGS")]
 	[SerializeField]
 	private float speed;
-	private Vector2 target;
 	private Vector3 lastPos;
+	protected TowerBase parent;
 
 	private void Awake() {
 		FindGameObjects();
 	}
-	public void Start() {
+	protected virtual void Start() {
 		Destroy(gameObject, parent.projectileLife);
 	}
 
@@ -27,14 +28,12 @@ public class ProjectileBase : MonoBehaviour
 			parent = gameObject.GetComponentInParent<TowerBase>();
 		}
 		speed = parent.projectileSpeed;
-		//target = parent2.enemyInFocus.transform.position;
-
 	}
 
 
 	public void MoveToEnemy() {
 		//speed *= globalVariables.gameSpeed;
-		if (target == null || transform.position == lastPos) {
+		if (transform.position == lastPos) {
 			Destroy(gameObject);
 		}
 

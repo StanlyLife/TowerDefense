@@ -5,9 +5,10 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
 	public enum type{ Basic,Fire,Water,Earth,Lightning};
-	[Header ("Required Attributes")]
+	[Header("Required Attributes")]
+	public int value;
 	public int health;
-	public int damage;
+	public int enemyDamage;
 	public float speed;
 	public type EnemyType;
 
@@ -25,7 +26,7 @@ public class EnemyMove : MonoBehaviour
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
 
-		damage += gameSettings.difficulty;
+		enemyDamage += gameSettings.difficulty;
 		speed += gameSettings.difficulty;
 		
 		findPath();
@@ -67,7 +68,7 @@ public class EnemyMove : MonoBehaviour
 	IEnumerator getNextWaypoint() {
 		currentWaypoint++;
 		if (currentWaypoint >= numOfWaypoints) {
-			gameSettings.takeDamage(damage);
+			gameSettings.takeDamage(enemyDamage);
 			Destroy(gameObject);
 		} else {
 			nextWaypoint = pathArray[currentWaypoint];
@@ -77,7 +78,7 @@ public class EnemyMove : MonoBehaviour
 	public void TakeDamage(int damage) {
 		health -= damage;
 		if (health <= 0) {
-			gameSettings.MapMoney += damage;
+			gameSettings.MapMoney += value;
 			Destroy(gameObject);
 		}
 	}

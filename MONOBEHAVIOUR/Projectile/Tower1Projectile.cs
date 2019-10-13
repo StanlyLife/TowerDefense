@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tower1Projectile : ProjectileBase
 {
 	private int damage;
-    void Start()
+    protected override void Start()
     {
 		base.Start();
     }
