@@ -9,7 +9,7 @@ public class ProjectileBase : MonoBehaviour
 
 	[Header("DEBUGS")]
 	[SerializeField]
-	private float speed;
+	protected float speed;
 	private Vector3 lastPos;
 	protected TowerBase parent;
 
@@ -18,6 +18,7 @@ public class ProjectileBase : MonoBehaviour
 	}
 	protected virtual void Start() {
 		Destroy(gameObject, parent.projectileLife);
+		speed *= gameSettings.gameSpeed;
 	}
 
 	private void FindGameObjects() {
@@ -32,7 +33,6 @@ public class ProjectileBase : MonoBehaviour
 
 
 	public void MoveToEnemy() {
-		//speed *= globalVariables.gameSpeed;
 		if (transform.position == lastPos) {
 			Destroy(gameObject);
 		}
