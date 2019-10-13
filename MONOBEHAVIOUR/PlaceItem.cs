@@ -78,8 +78,8 @@ public class PlaceItem : MonoBehaviour
     #region Hold Methods
     //Change item cursor is holding
     public void Hold(GameObject towerDummy,GameObject realTower) {
-        item = realTower;
         Instantiate(towerDummy,transform);
+        item = realTower;
         hasItemInHand = true;
     }
     public void RemoveHold() {

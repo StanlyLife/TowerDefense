@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
 {
+	[Header ("Insert in inspector")]
 	public GameSettings gameSettings;
-	public Tower1 parent;
+
 	[Header("DEBUGS")]
 	[SerializeField]
 	private float speed;
-	//private Vector2 target;
 	private Vector3 lastPos;
+	protected Tower1 parent;
 
 	private void Awake() {
 		FindGameObjects();
