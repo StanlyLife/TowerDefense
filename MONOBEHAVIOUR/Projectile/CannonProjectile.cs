@@ -33,7 +33,7 @@ public class CannonProjectile : ProjectileBase
 	}
 
 	IEnumerator waitToDestroy() {
-		yield return new WaitForSeconds(.12f);
+		yield return new WaitForSeconds(.05f/gameSettings.gameSpeed);
 		Destroy(gameObject);
 	}
 

@@ -52,31 +52,6 @@ public class TowerBase : MonoBehaviour
         headHolder.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    public void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Enemy")) {
-            enemyList.Add(collision.gameObject);
-/*
-			foreach(GameObject go in enemyList) {
-				if (go == null) {
-					enemyList.Remove(go);
-				}
-			}
-*/
-        }
-    }
-
-    public void OnTriggerExit2D(Collider2D collision) {
-        if (collision.CompareTag("Enemy") && enemyList.Count > 0) {
-			try {
-				enemyList.RemoveAt(0);
-			} catch (System.Exception e) when (e is System.InvalidOperationException) {
-					Debug.Log("ERROR in OnTriggetrExit2D() TowerBase: " + e);
-					Destroy(gameObject);
-			}
-		}
-    }
-
-
     public void lookAt(GameObject go) {
         if (go != null) {
 			Vector3 direction = go.transform.position - headHolder.transform.position;

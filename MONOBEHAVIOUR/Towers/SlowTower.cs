@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class SlowTower : TowerBase
 {
-	[Header ("Radius of tower")]
-	public float radius;
-	[Header ("How much to slow down")]
 	[Range(0,100)]
 	public float percentToSlowDown;
 	[Header ("Time before normal")]
 	public float timeSlowed;
+
 	private Animator anim;
-	[SerializeField]
-	private Collider2D[] enemies;
 	public override void Start() {
 		base.Start();
 		anim = GetComponent<Animator>();
@@ -22,6 +18,9 @@ public class SlowTower : TowerBase
 	private void Update() {
 		if (!gameSettings.isPaused) {
 			Fire();
+			anim.SetFloat("gamespeed", gameSettings.gameSpeed);
+		} else {
+			anim.SetFloat("gamespeed", 0);
 		}
 	}
 
@@ -30,12 +29,8 @@ public class SlowTower : TowerBase
 			lastProjectileTime = Time.time + (timeBetweenProjectiles / gameSettings.gameSpeed);
 			anim.SetTrigger("SlowEnemies");
 
-			enemies = Physics2D.OverlapCircleAll(transform.position, radius);
-
-			foreach(Collider2D enemy in enemies) {
-				if (enemy.CompareTag("Enemy")) {
-					enemy.gameObject.GetComponent<EnemyMove>().SlowDown(percentToSlowDown,timeSlowed);
-				}
+			foreach(GameObject enemy in enemyList) {
+				enemy.GetComponent<EnemyMove>().StartSlowDownEvent(timeSlowed, percentToSlowDown);
 			}
 		}
 	}

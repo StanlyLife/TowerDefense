@@ -16,42 +16,27 @@ public class EnemyMove : MonoBehaviour
 	public GameSettings gameSettings;
 
 	[Header("Debugs")]
-	public int currentWaypoint = 0;
-	public int numOfWaypoints;
-    public Pathfinder path;
-    public Transform nextWaypoint;
-	public Transform[] pathArray;
+	private int currentWaypoint = 0;
+	private int numOfWaypoints;
+    private Pathfinder path;
+    private Transform nextWaypoint;
+	private Transform[] pathArray;
+
+	//Slow down attributes
+	private bool slowDownBool = false;
+	private float timeToSlowDown;
+	private float slowDownAmount;
+	private float originalSpeed;
 
     protected virtual void Start()
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
-
+		originalSpeed = speed;
 		enemyDamage += gameSettings.difficulty;
 		speed += gameSettings.difficulty;
 		
 		findPath();
     }
-
-
-	private float slowDownTimer;
-	private float speed2;
-	private bool isSlow = false;
-	
-	public void SlowDown(float percent,float slowTime) {
-		speed2 = speed;
-		if (!isSlow) {
-			isSlow = true;
-				StartCoroutine(SlowDownTimer(percent, slowTime, speed2));
-		}
-		isSlow = false;
-	}
-
-	IEnumerator SlowDownTimer(float percent,float seconds, float realSpeed) {
-		
-		speed = ((speed2/100)*percent);
-		yield return new WaitForSeconds(seconds);
-		speed = speed2;
-	}
 
 	private void Update()
     {
@@ -61,7 +46,29 @@ public class EnemyMove : MonoBehaviour
     }
 
 
+	public void TakeDamage(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			gameSettings.MapMoney += value;
+			Destroy(gameObject);
+		}
+	}
 
+	#region Add Enemy to tower radius
+	private void OnTriggerEnter2D(Collider2D collision) {
+		if (collision.CompareTag("Tower")) {
+			collision.GetComponent<TowerBase>().enemyList.Add(gameObject);
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D collision) {
+		if (collision.CompareTag("Tower")) {
+			collision.GetComponent<TowerBase>().enemyList.Remove(gameObject);
+		}
+	}
+	#endregion
+
+	#region Path and move functions
     public void move() {
 		GetPosition(); //updates waypoint
             transform.position = 
@@ -96,12 +103,30 @@ public class EnemyMove : MonoBehaviour
 		}
 		yield return new WaitForSeconds(1/gameSettings.gameSpeed);	
 	}
-	public void TakeDamage(int damage) {
-		health -= damage;
-		if (health <= 0) {
-			gameSettings.MapMoney += value;
-			Destroy(gameObject);
+	#endregion
+
+	#region SlowDown
+	private void FixedUpdate() {
+		if (Time.time <= timeToSlowDown) {
+			SlowDown();
+		} else {
+			slowDownBool = false;
+			speed = originalSpeed * gameSettings.gameSpeed;
 		}
 	}
+	public void StartSlowDownEvent(float secondsToSlowDown, float amountToSlowdown) {
+		float slowDownTime = secondsToSlowDown;
+		slowDownAmount = amountToSlowdown;
 
+		timeToSlowDown = Time.time + slowDownTime;
+	}
+
+	private void SlowDown() {
+		if (!slowDownBool) {
+			speed = (originalSpeed / 100) * (100 - slowDownAmount);
+			speed *= gameSettings.gameSpeed;
+			slowDownBool = true;
+		}
+	}
+	#endregion
 }

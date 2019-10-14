@@ -13,14 +13,19 @@ public class GameSettings : MonoBehaviour
 	public float musicLevel;
 
 	[Header("Game Settings")]
-	public float gameSpeed = 1; //1 default, 2 double, 3 tripple
+	[Tooltip ("1 by default")]
+	public float gameSpeed = 1;
+	[Tooltip ("0 by defaut, for easy")]
 	public int difficulty = 0; //0 easy, 1 medium, 2 hard, 3 impossible
 	[Tooltip("Is game paused, true false")]
 	public bool isPaused = false;
 	[Header("Game attributes")]
 	public int gameHealth;
 	public int MapMoney;
-/*
+
+
+
+/* FIX THIS LATER!
 	private void Update() {
 		print(wave.numberOfSpawners);
 		if (wave.isDoneSpawning && (spawnDone % wave.numberOfSpawners) == 1) {
@@ -32,6 +37,11 @@ public class GameSettings : MonoBehaviour
 
 	public void StarNexttWave() {
 		wave.StartNextWave();
+	}
+
+	public void SetGameSpeed(int speed) {
+		//Divided by 10 as the button in inspector does not accept a float
+		gameSpeed = speed/10;
 	}
 
 	private enum difficultyEnum {
