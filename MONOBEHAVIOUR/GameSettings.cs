@@ -33,14 +33,24 @@ public class GameSettings : MonoBehaviour
 	private void FixedUpdate() {
 		if (waveStart) {
 			if (enemiesAmount <= 0) {
-				enemiesAmount = 0;
-				waveStart = false;
-				isPaused = true;
-				gameSpeed = 1;
-				//Activate button
+				StartCoroutine(isWaveDone());
 			}
 		}
 	}
+
+
+	 IEnumerator isWaveDone() {
+		yield return new WaitForSeconds(wave.timeBetweenSpawns);
+		if (enemiesAmount <= 0) {
+			enemiesAmount = 0;
+			waveStart = false;
+			isPaused = true;
+			gameSpeed = 1;
+			//Activate button
+		}
+
+	}
+
 
 	private void Start() {
 		//Activate button

@@ -79,7 +79,7 @@ public class Tower2 : TowerBase {
 		if (enemyInFocus != null) {
 			if (Time.time >= lastProjectileTime || lastProjectileTime > Mathf.Pow(10, 10)) {
 				lastProjectileTime = Time.time + (timeBetweenProjectiles / gameSettings.gameSpeed);
-				Instantiate(GoProjectile, headHolder.transform);
+				Instantiate(GoProjectile, headHolder.transform.position, headHolder.transform.rotation, transform /*parent*/);
 			}
 		}
 	}

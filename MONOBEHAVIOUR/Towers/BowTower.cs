@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class BowTower : TowerBase
 {
+	[Header("BowTower attributes")]
+	[SerializeField]
+	private Transform[] porjectileSpawnLocations;
+	[SerializeField]
+	private GameObject tower;
+
 	[HideInInspector]
-	public GameObject enemyInFocus;
+	private GameObject enemyInFocus;
 
 	public override void Start() {
 		base.Start();
@@ -79,19 +85,18 @@ public class BowTower : TowerBase
 	public void fire() {
 		if (enemyInFocus != null) {
 
-			#region Rotate projectiles relative to head
-			Vector2 dir = enemyInFocus.transform.position - headHolder.transform.position;
-			//float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + normaliseRotationBy;
-			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-			Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-			#endregion
 
 			if (Time.time >= lastProjectileTime || lastProjectileTime > Mathf.Pow(10, 10)) {
 				lastProjectileTime = Time.time + (timeBetweenProjectiles / gameSettings.gameSpeed);
+				foreach(Transform spot in porjectileSpawnLocations) {
+					
 
-				//Instantiate(GoProjectile, headHolder.transform.position, headHolder.transform.rotation,transform /*parent*/);
-				Instantiate(GoProjectile, headHolder.transform.position, rotation, transform /*parent*/);
-				//Instantiate(GoProjectile, headHolder.transform);
+
+					float angle2 = spot.transform.rotation.z * Mathf.Rad2Deg;
+					Quaternion originalRotation = Quaternion.AngleAxis(angle2, Vector3.forward);
+
+					Instantiate(GoProjectile,spot.transform.position, spot.transform.rotation, tower.transform);
+				}
 			}
 		}
 	}

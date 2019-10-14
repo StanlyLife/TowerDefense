@@ -10,7 +10,7 @@ public class TowerBase : MonoBehaviour
 	[Header("Game Settings")]
 	public GameSettings gameSettings;
     [Header ("Base attributes")]
-    public int upgrade;
+    protected int upgrade;
 	public float targetRadius;
     public target targetPriority;
 

@@ -29,10 +29,17 @@ public class SlowTower : TowerBase
 		if (Time.time >= lastProjectileTime && enemyList.Count >= 1 || lastProjectileTime > Mathf.Pow(10, 10)) {
 			lastProjectileTime = Time.time + (timeBetweenProjectiles / gameSettings.gameSpeed);
 			anim.SetTrigger("SlowEnemies");
-
 			foreach(GameObject enemy in enemyList) {
-				enemy.GetComponent<EnemyMove>().StartSlowDownEvent(timeSlowed, percentToSlowDown);
+				try {
+					enemy.GetComponent<EnemyMove>().StartSlowDownEvent(timeSlowed, percentToSlowDown);
+				} catch {
+					//If enemy dead
+					//missing reference exception
+				}
+
 			}
+		} else {
+			anim.ResetTrigger("SlowEnemies");
 		}
 	}
 

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Enemy1 : EnemyMove
 {
-	Animator anim;
+	protected Animator anim;
 	protected override void Start() {
 		base.Start();
-		anim = GetComponent<Animator>();
+		anim = gameObject.GetComponent<Animator>();
 	}
 
     void Update()

@@ -12,6 +12,12 @@ public class Store : ScriptableObject
     public int tower2;
     public int tower3;
     public int tower4;
+	public int tower5;
+    public int tower6;
+    public int tower7;
+    public int tower8;
+    public int tower9;
+    public int tower10;
 
     #region buy method
     public bool buy(string tower) {
@@ -30,8 +36,27 @@ public class Store : ScriptableObject
             case "tower4":
             price = tower4;
             break;
+			case "tower5":
+            price = tower5;
+            break;
+			case "tower6":
+            price = tower6;
+            break;
+			case "tower7":
+			price = tower7;
+			break;
+			case "tower8":
+			price = tower8;
+			break;
+			case "tower9":
+			price = tower9;
+			break;
+			case "tower10":
+			price = tower10;
+			break;
 
-            default:
+			default:
+				//No tower instance
                 return false;
         }
 

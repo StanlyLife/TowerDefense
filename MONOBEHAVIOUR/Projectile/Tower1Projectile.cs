@@ -16,13 +16,15 @@ public class Tower1Projectile : ProjectileBase
 			MoveToEnemy();
 		}
     }
-
-
+	private bool hit = false;
 	public void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.CompareTag("Enemy")) {
+		if (collision.CompareTag("Enemy") && !hit) {
+			hit = true;
 			damage = parent.damage;
 			collision.gameObject.GetComponent<EnemyMove>().TakeDamage(damage);
 			Destroy(gameObject);
 		}
 	}
+
+
 }

@@ -11,6 +11,9 @@ public class WaveSpawner : MonoBehaviour
 	public Spawner[] spawnerArray;
 	[Header("Debugs")]
 	public Waves.WaveDifficulty[] difficulty;
+	[HideInInspector]
+	public float timeBetweenSpawns;
+
 	private Waves.WaveDifficulty waveDifficulty;
 	private Waves.Wave currentWave;
 
@@ -52,6 +55,7 @@ public class WaveSpawner : MonoBehaviour
 		#endregion
 		print("Enemies this wave: " + numOfEnemiesToSpawn);
 
+
 		int[] EnemiesThisWaveArray = RegulateEnemySpawn();
 		foreach (Spawner currentSpawner in spawnerArray) { 
 			currentSpawner.enemyArray = currentWave.enemies;
@@ -70,6 +74,14 @@ public class WaveSpawner : MonoBehaviour
 			waveDifficulty = difficulty[gameSettings.difficulty];
 			currentWave = waveDifficulty.WaveNumber[currentWaveNumber /*wave number*/];
 			numOfWaves = waveDifficulty.WaveNumber.Length;
+			timeBetweenSpawns = 0;
+			foreach (float time in currentWave.timeBetweenEnemies) {
+				if (time > timeBetweenSpawns) {
+					timeBetweenSpawns = time;
+					//timebetweenspawns IS longest enemy wait time this wave
+				}
+			}
+
 		}catch (System.Exception e) when (e is System.IndexOutOfRangeException) {
 			print("WaveSpawner has no more waves");
 		}

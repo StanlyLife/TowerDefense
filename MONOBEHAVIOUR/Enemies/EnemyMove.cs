@@ -36,9 +36,8 @@ public class EnemyMove : MonoBehaviour
 
     protected virtual void Start()
     {
-		SetValues();
-
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
+		SetValues();
 		enemyDamage += gameSettings.difficulty;
 		speed += gameSettings.difficulty;
 		findPath();
