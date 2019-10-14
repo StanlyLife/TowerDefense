@@ -15,7 +15,7 @@ public class EnemyMove : MonoBehaviour
 	[Header("Is Game Paused")]
 	public GameSettings gameSettings;
 
-	[Header("Debugs")]
+	//private variables
 	private int currentWaypoint = 0;
 	private int numOfWaypoints;
     private Pathfinder path;

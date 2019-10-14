@@ -9,6 +9,7 @@ public class SlowTower : TowerBase
 	[Header ("Time before normal")]
 	public float timeSlowed;
 
+	//private variables
 	private Animator anim;
 	public override void Start() {
 		base.Start();

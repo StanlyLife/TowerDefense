@@ -9,13 +9,21 @@ public class CannonTower : TowerBase
 
 	[Header("Cannon Explosion radius")]
 	public float explosionRadius;
+
+	//private variables
+	private Animator anim;
+
     public override void Start()
     {
 		base.Start();
+		anim = GetComponent<Animator>();
     }
 	void Update() {
 		if (!gameSettings.isPaused) {
 			FollowEnemy();
+			anim.SetFloat("gamespeed", gameSettings.gameSpeed);
+		} else {
+			anim.SetFloat("gamespeed", 0);
 		}
 	}
 	public void FollowEnemy() {
