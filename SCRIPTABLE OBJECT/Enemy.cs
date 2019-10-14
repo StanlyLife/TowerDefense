@@ -5,24 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Placeable", menuName = "Enemy")]
 public class Enemy : ScriptableObject
 {
-    [System.Serializable]
-    public class Enemies
-    {
+		[Header ("Enemy Name")]
         public string name;
         [Header ("Enemy attributes")]
-        public int damage;
-        public float speed;
-        public int health;
-        public int maxHealth;
-        public enemyType EnemyType;
-    }
-    [HideInInspector]
-    public enum enemyType
-        {
+		public int killValue;
+		public int health;
+		public int enemyDamage;
+		public float speed;
+
+	public type EnemyType;
+	public enum type
+    {
             basic,fire,water,earth,lightning
-        };
-    public float GlobalSpeed;
-    public int GlobalHealth;
-    public int GlobalMaxHealth;
-    public Enemies[] enemies;
+    };
+
 }

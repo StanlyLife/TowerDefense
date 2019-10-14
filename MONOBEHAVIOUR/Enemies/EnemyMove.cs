@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-	public enum type{ Basic,Fire,Water,Earth,Lightning};
-	[Header("Required Attributes")]
-	public int value;
-	public int health;
-	public int enemyDamage;
-	public float speed;
-	public type EnemyType;
 
-	[Header("Is Game Paused")]
-	public GameSettings gameSettings;
+
+	[Header("Enemy Attributes")]
+	Enemy _Enemy;
 
 	//private variables
+
+		/*scripts*/
+	protected GameSettings gameSettings;
+
+		/*Enemy attributes*/
+	private string name;
+	private int health;
+	private float speed;
+	private int enemyDamage;
+	private int killValue;
+		/*Waypoints and pathfinder*/
 	private int currentWaypoint = 0;
 	private int numOfWaypoints;
     private Pathfinder path;
     private Transform nextWaypoint;
 	private Transform[] pathArray;
 
-	//Slow down attributes
+		/*Slowdown attributes*/
 	private bool slowDownBool = false;
 	private float timeToSlowDown;
 	private float slowDownAmount;
@@ -31,10 +36,8 @@ public class EnemyMove : MonoBehaviour
     protected virtual void Start()
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
-		originalSpeed = speed;
 		enemyDamage += gameSettings.difficulty;
 		speed += gameSettings.difficulty;
-		
 		findPath();
     }
 
@@ -45,11 +48,20 @@ public class EnemyMove : MonoBehaviour
 		}
     }
 
+	private void SetValues() {
+		name = _Enemy.name;
+		health = _Enemy.health;
+		speed = _Enemy.speed;
+		enemyDamage = _Enemy.enemyDamage;
+		killValue = _Enemy.killValue;
+		originalSpeed = speed;
+
+	}
 
 	public void TakeDamage(int damage) {
 		health -= damage;
 		if (health <= 0) {
-			gameSettings.MapMoney += value;
+			gameSettings.MapMoney += killValue;
 			Destroy(gameObject);
 		}
 	}
