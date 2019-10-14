@@ -19,6 +19,7 @@ public class Tower1Projectile : ProjectileBase
 	private bool hit = false;
 	public void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.CompareTag("Enemy") && !hit) {
+			
 			hit = true;
 			damage = parent.damage;
 			collision.gameObject.GetComponent<EnemyMove>().TakeDamage(damage);

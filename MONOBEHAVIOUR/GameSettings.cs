@@ -30,9 +30,22 @@ public class GameSettings : MonoBehaviour
 	[SerializeField]
 	private GameObject button;
 
+	[HideInInspector]
+	public bool[] doneSpawning;
+	private bool allDoneSpawning;
 	private void FixedUpdate() {
 		if (waveStart) {
-			if (enemiesAmount <= 0) {
+
+			foreach(bool spawner in doneSpawning) {
+				if (spawner) {
+					allDoneSpawning = true;
+				} else {
+					allDoneSpawning = false;
+					break;
+				}
+			}
+
+			if (enemiesAmount <= 0 && allDoneSpawning) {
 				StartCoroutine(isWaveDone());
 			}
 		}
@@ -54,6 +67,7 @@ public class GameSettings : MonoBehaviour
 
 	private void Start() {
 		//Activate button
+		doneSpawning = new bool[wave.spawnerArray.Length];
 		isPaused = false;
 		gameSpeed = 1;
 	}

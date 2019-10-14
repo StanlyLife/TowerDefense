@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
 	//WaveList
 	[Header("Game Settings")]
 	public GameSettings gameSettings;
+	int spawnerNumber;
 	[Header("Wave attributes")]
     public GameObject[] enemyArray;
 	public int[] enemySpawnAmount;
@@ -36,6 +37,7 @@ public class Spawner : MonoBehaviour
 
 	IEnumerator spawnEnemy(GameObject[] enemyType, int[] amountToSpawn, float[] tbs) {
 
+		gameSettings.doneSpawning[spawnerNumber] = false;
 		int count = 0;
 		foreach (GameObject enemy in enemyType) {
 			for (int x = 1; x <= amountToSpawn[count];) {
@@ -50,6 +52,7 @@ public class Spawner : MonoBehaviour
 			}
 			count++;
 		}
+		gameSettings.doneSpawning[spawnerNumber] = true;
 	}
 
 }
