@@ -100,7 +100,7 @@ public class CannonTower : TowerBase
 				lastProjectileTime = Time.time + (timeBetweenProjectiles / gameSettings.gameSpeed);
 
 				//Instantiate(GoProjectile, headHolder.transform.position, headHolder.transform.rotation,transform /*parent*/);
-				Instantiate(GoProjectile, headHolder.transform.position, rotation, transform /*parent*/);
+				Instantiate(GoProjectile, headHolder.transform.position, headHolder.transform.rotation, transform /*parent*/);
 				GetComponent<Animator>().SetTrigger("ShootCannon");
 				//Instantiate(GoProjectile, headHolder.transform);
 			}
