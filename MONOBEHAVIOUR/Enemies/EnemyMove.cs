@@ -32,7 +32,28 @@ public class EnemyMove : MonoBehaviour
 		findPath();
     }
 
-    private void Update()
+
+	private float slowDownTimer;
+	private float speed2;
+	private bool isSlow = false;
+	
+	public void SlowDown(float percent,float slowTime) {
+		speed2 = speed;
+		if (!isSlow) {
+			isSlow = true;
+				StartCoroutine(SlowDownTimer(percent, slowTime, speed2));
+		}
+		isSlow = false;
+	}
+
+	IEnumerator SlowDownTimer(float percent,float seconds, float realSpeed) {
+		
+		speed = ((speed2/100)*percent);
+		yield return new WaitForSeconds(seconds);
+		speed = speed2;
+	}
+
+	private void Update()
     {
 		if (!gameSettings.isPaused) {
 			move();
