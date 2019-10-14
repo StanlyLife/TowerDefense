@@ -12,7 +12,6 @@ public class CannonProjectile : ProjectileBase
 	protected override void Start() {
 		Destroy(gameObject,gameObject.GetComponentInParent<TowerBase>().projectileLife);
 		base.Start();
-		print("Im here");
 		target = gameObject.GetComponentInParent<CannonTower>().enemyInFocus.transform.position;
 	}
 

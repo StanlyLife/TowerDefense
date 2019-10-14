@@ -26,6 +26,7 @@ public class GameSettings : MonoBehaviour
 	public int enemiesAmount;
 	private bool waveStart = false;
 
+
 	[Header("NextWave button")]
 	[SerializeField]
 	private GameObject button;
@@ -33,6 +34,8 @@ public class GameSettings : MonoBehaviour
 	[HideInInspector]
 	public bool[] doneSpawning;
 	private bool allDoneSpawning;
+	[HideInInspector]
+	public int currentWave = 0;
 	private void FixedUpdate() {
 		if (waveStart) {
 
@@ -74,6 +77,7 @@ public class GameSettings : MonoBehaviour
 
 	public void StarNexttWave() {
 		//Deactivatebutton
+		currentWave++;
 		waveStart = true;
 		isPaused = false;
 		wave.StartNextWave();

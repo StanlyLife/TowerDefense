@@ -6,12 +6,13 @@ public class CannonExplosion : MonoBehaviour
 {
 	public GameSettings gameSettings;
 	private Animator animation;
-
+	private TowerBase parent;
 	private float radius;
 	private int projectileDamage;
 	private CannonTower cannonParent;
     void Start()
     {
+		parent = GetComponentInParent<TowerBase>();
 		animation = gameObject.GetComponent<Animator>();
 		animation.SetFloat("gamespeed", gameSettings.gameSpeed);
 		cannonParent = gameObject.GetComponentInParent<CannonTower>();
@@ -26,6 +27,7 @@ public class CannonExplosion : MonoBehaviour
 
 		foreach(Collider2D collisions in enemiesInRange) {
 			if (collisions.CompareTag("Enemy")) {
+				parent.damageDealt += projectileDamage;
 				collisions.gameObject.GetComponent<EnemyMove>().TakeDamage(projectileDamage);
 			}
 		}

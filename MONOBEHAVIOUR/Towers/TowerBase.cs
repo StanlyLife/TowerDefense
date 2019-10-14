@@ -30,9 +30,11 @@ public class TowerBase : MonoBehaviour
 	public float timeBetweenProjectiles;
 
 	[Header("DEBUG")]
+	public int damageDealt;
+	[HideInInspector]
     public List<GameObject> enemyList = new List<GameObject>();
-	//[HideInInspector]
-	public float lastProjectileTime;
+	[HideInInspector]
+	protected float lastProjectileTime;
     public virtual void Start()
     {
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();

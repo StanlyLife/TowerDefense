@@ -25,7 +25,7 @@ public class TextUiModifier : MonoBehaviour
 		} else if (isCoins) {
 			text.text = gameSettings.MapMoney.ToString();
 		}else if (isWave) {
-			//text.text = gameSettings.MapMoney.ToString();
+			text.text = gameSettings.currentWave.ToString();
 		}
     }
 
