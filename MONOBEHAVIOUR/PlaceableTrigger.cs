@@ -6,8 +6,7 @@ public class PlaceableTrigger : MonoBehaviour
 {
     [Header ("Placeable Script")]
     [Tooltip ("Change canPlace attribute true & false")]public Placeable canPlace;
-    [Header("HandHolder Script")]
-    [Tooltip ("change color of the radius circle")]public RadiusCircle circleChange;
+    [Tooltip ("change color of the radius circle")]private RadiusCircle circleChange;
 
 
 

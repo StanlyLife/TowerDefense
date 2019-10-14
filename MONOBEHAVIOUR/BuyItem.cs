@@ -30,5 +30,16 @@ public class BuyItem : MonoBehaviour
 			cursor.Hold(towerCollection.Towers[3].DummyTower.gameObject, towerCollection.Towers[3].RealTower.gameObject);
 		}
 	}
+	public void buyTower5() { //cannon
+		if (store.buy("tower5")) {
+			cursor.Hold(towerCollection.Towers[4].DummyTower.gameObject, towerCollection.Towers[4].RealTower.gameObject);
+		}
+	}
+	public void buyTower6() { //cannon
+		if (store.buy("tower6")) {
+			cursor.Hold(towerCollection.Towers[5].DummyTower.gameObject, towerCollection.Towers[5].RealTower.gameObject);
+		}
+	}
 
+	//I know this is a very bad example of reusing code, but the project is closing to an end and i cba with this demo...
 }

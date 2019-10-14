@@ -88,7 +88,7 @@ public class TowerBase : MonoBehaviour
 
     private Vector3 FindRoad() {
         Vector3 roadVector = road.GetComponent<Rigidbody2D>().ClosestPoint(transform.position);
-        Instantiate(visualiseRoad, roadVector, transform.rotation);
+        Instantiate(visualiseRoad, roadVector, transform.rotation,transform);
         return roadVector;
     }
 }
