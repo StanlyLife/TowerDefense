@@ -12,9 +12,11 @@ public class Enemy1 : EnemyMove
 
     void Update()
     {
-		anim.SetFloat("gamespeed", gameSettings.gameSpeed);
 		if (!gameSettings.isPaused) {
+			anim.SetFloat("gamespeed", gameSettings.gameSpeed);
 			move();
+		} else {
+			anim.SetFloat("gamespeed",0);
 		}
 	}
 }

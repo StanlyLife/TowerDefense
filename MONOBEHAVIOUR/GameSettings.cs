@@ -23,19 +23,35 @@ public class GameSettings : MonoBehaviour
 	public int gameHealth;
 	public int MapMoney;
 
+	public int enemiesAmount;
+	private bool waveStart = false;
 
+	[Header("NextWave button")]
+	[SerializeField]
+	private GameObject button;
 
-/* FIX THIS LATER!
-	private void Update() {
-		print(wave.numberOfSpawners);
-		if (wave.isDoneSpawning && (spawnDone % wave.numberOfSpawners) == 1) {
-			print("Wave Done");
-			isPaused = true;
+	private void FixedUpdate() {
+		if (waveStart) {
+			if (enemiesAmount <= 0) {
+				enemiesAmount = 0;
+				waveStart = false;
+				isPaused = true;
+				gameSpeed = 1;
+				//Activate button
+			}
 		}
 	}
-*/
+
+	private void Start() {
+		//Activate button
+		isPaused = false;
+		gameSpeed = 1;
+	}
 
 	public void StarNexttWave() {
+		//Deactivatebutton
+		waveStart = true;
+		isPaused = false;
 		wave.StartNextWave();
 	}
 

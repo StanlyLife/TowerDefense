@@ -40,6 +40,7 @@ public class Spawner : MonoBehaviour
 		foreach (GameObject enemy in enemyType) {
 			for (int x = 1; x <= amountToSpawn[count];) {
 				if (!gameSettings.gsWaveDone && !gameSettings.isPaused) {
+					gameSettings.enemiesAmount++;
 					Instantiate(enemy, gameObject.transform);
 					x++;
 					yield return new WaitForSeconds(tbs[count] * gameSettings.gameSpeed);

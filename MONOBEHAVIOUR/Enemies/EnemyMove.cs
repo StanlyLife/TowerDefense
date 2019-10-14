@@ -7,7 +7,8 @@ public class EnemyMove : MonoBehaviour
 
 
 	[Header("Enemy Attributes")]
-	Enemy _Enemy;
+	[SerializeField]
+	private Enemy _Enemy;
 
 	//private variables
 
@@ -35,6 +36,8 @@ public class EnemyMove : MonoBehaviour
 
     protected virtual void Start()
     {
+		SetValues();
+
 		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
 		enemyDamage += gameSettings.difficulty;
 		speed += gameSettings.difficulty;
@@ -64,6 +67,10 @@ public class EnemyMove : MonoBehaviour
 			gameSettings.MapMoney += killValue;
 			Destroy(gameObject);
 		}
+	}
+
+	private void OnDestroy() {
+		gameSettings.enemiesAmount--;
 	}
 
 	#region Add Enemy to tower radius
