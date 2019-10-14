@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Store", menuName = "ScriptableObject: Store")]
+[CreateAssetMenu(fileName = "Store", menuName = "ScriptableObject/Store")]
 public class Store : ScriptableObject
 {
     [Header("Inventory for money and such")]
@@ -18,6 +18,8 @@ public class Store : ScriptableObject
     public int tower8;
     public int tower9;
     public int tower10;
+	public int tower11;
+    public int tower12;
 
     #region buy method
     public bool buy(string tower) {
@@ -53,6 +55,12 @@ public class Store : ScriptableObject
 			break;
 			case "tower10":
 			price = tower10;
+			break;
+			case "tower11":
+			price = tower11;
+			break;
+			case "tower12":
+			price = tower12;
 			break;
 
 			default:
