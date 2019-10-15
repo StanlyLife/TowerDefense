@@ -4,48 +4,87 @@ using UnityEngine;
 
 public class TowerBase : MonoBehaviour
 {
+	[Header ("TOWER SO")]
+	public Tower _Tower;
+
     public enum target {
         first,last,strong,weak
     };
-	[Header("Game Settings")]
-	public GameSettings gameSettings;
-    [Header ("Base attributes")]
-    protected int upgrade;
-	public float targetRadius;
-    public target targetPriority;
-
-    [Header("Move Towards Road")]
-    public GameObject headHolder;
-    public GameObject visualiseRoad;
+	#region common attributes
+	//SCRIPTS
+	protected GameSettings gameSettings;
+	//GAMEOBJECTS
+	protected GameObject GoProjectile;
+    private GameObject visualiseRoad;
+	//INT
 	[HideInInspector]
-	public int normaliseRotationBy = -90;
-    private GameObject road;
-    private Rigidbody2D towerRigBod;
-
-	[Header("Projectile attributes")]
-	public GameObject GoProjectile;
     public int damage;
+	[HideInInspector]
+	public int ID;
+	//FLOAT
+	[HideInInspector]
+	public float targetRadius;
+	[HideInInspector]
 	public float projectileSpeed;
+	[HideInInspector]
 	public float projectileLife;
-	public float timeBetweenProjectiles;
-
-	[Header("DEBUG")]
+	protected float timeBetweenProjectiles;
+	#endregion
+	[Header ("Unique Values")]
+	/*ENUM*/
+	public target targetPriority;
+	/*public*/
+    public GameObject headHolder;
 	public int damageDealt;
+
+	/*private*/
+    private Rigidbody2D road;
+	private Rigidbody2D towerRigBod;
+
+	/*Protected*/
+    protected int upgrade;
+	protected float lastProjectileTime;
+	/*Public hide*/
 	[HideInInspector]
     public List<GameObject> enemyList = new List<GameObject>();
 	[HideInInspector]
-	protected float lastProjectileTime;
-    public virtual void Start()
-    {
-		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
-        towerRigBod = gameObject.GetComponent<Rigidbody2D>();
-        road = GameObject.FindGameObjectWithTag("Road");
+	public int normaliseRotationBy = -90;
 
-		gameObject.GetComponent<CircleCollider2D>().radius = targetRadius;
+
+
+
+
+	public virtual void Start()
+    {
+		FindAttributes();
+		SetAttributes();
 
         RotateHeadToRoad();
-    }
+	}
+	private void SetAttributes() {
+		//SCRIPTS
+		gameSettings = _Tower.gameSettings;
+		//GAMEOBJECTS
+		GoProjectile = _Tower.projectile;
+		visualiseRoad = _Tower.roadGizmo;
+		//INT
+		damage = _Tower.projectileDamage;
+		timeBetweenProjectiles = _Tower.projectileCooldown;
+		ID = _Tower.towerID;
+		//FLOAT
+		targetRadius = _Tower.radius;
+		projectileSpeed = _Tower.projectileSpeed;
+		projectileLife = _Tower.projectileLifeTime;
 
+		//Set radius
+		gameObject.GetComponent<CircleCollider2D>().radius = targetRadius;
+	}
+
+
+	private void FindAttributes() {
+        towerRigBod = gameObject.GetComponent<Rigidbody2D>();
+		road = GameObject.FindGameObjectWithTag("Road").GetComponent<Rigidbody2D>();
+	}
 
 	private void RotateHeadToRoad() {
         Vector3 direction = FindRoad() - headHolder.transform.position;
@@ -53,7 +92,6 @@ public class TowerBase : MonoBehaviour
 
         headHolder.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
-
     public void lookAt(GameObject go) {
         if (go != null) {
 			Vector3 direction = go.transform.position - headHolder.transform.position;
@@ -61,10 +99,8 @@ public class TowerBase : MonoBehaviour
             headHolder.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
-
-
     private Vector3 FindRoad() {
-        Vector3 roadVector = road.GetComponent<Rigidbody2D>().ClosestPoint(transform.position);
+        Vector3 roadVector = road.ClosestPoint(transform.position);
         Instantiate(visualiseRoad, roadVector, transform.rotation,transform);
         return roadVector;
     }
