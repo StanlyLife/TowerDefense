@@ -52,10 +52,12 @@ public class TowerInfoHandler : MonoBehaviour
 	private void Slide(string direction) {
 		switch (direction.ToLower()){
 			case "in":
+			sliderAnimator.ResetTrigger("SlideOut");
 			sliderAnimator.SetTrigger("SlideIn");
 			break;
 
 			case "out":
+			sliderAnimator.ResetTrigger("SlideIn");
 			sliderAnimator.SetTrigger("SlideOut");
 			break;
 
