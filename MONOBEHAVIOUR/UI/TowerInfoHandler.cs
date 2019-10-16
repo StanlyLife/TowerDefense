@@ -25,6 +25,8 @@ public class TowerInfoHandler : MonoBehaviour
 	[Header ("Description")]
 	public TMPro.TMP_Text Description;
 
+	private float orginPHeight;
+	private float orginPWidth;
 	//TODO
 	//Fix sellprices
 	//Fix sellScript
@@ -33,6 +35,10 @@ public class TowerInfoHandler : MonoBehaviour
 	//OnClick screen slideDown
 	public Animator sliderAnimator;
 
+	private void Start() {
+		orginPHeight = projectileImage.rectTransform.rect.height;
+		orginPWidth = projectileImage.rectTransform.rect.width;
+	}
 	public void SetText(int id) {
 		currentCollection = GetTowerCollection(id);
 		currentTower = currentCollection._Tower;
@@ -84,10 +90,21 @@ public class TowerInfoHandler : MonoBehaviour
 	}
 
 	private void SetImages() {
-		projectileImage.sprite = currentCollection.ProjectileImage;
 		towerImage.sprite = currentCollection.towerImage;
+		projectileImage.sprite = currentCollection.ProjectileImage;
 
-		projectileImage.SetNativeSize();
+		if (
+			orginPWidth >= currentCollection.ProjectileImage.rect.width &&
+			orginPHeight >= currentCollection.ProjectileImage.rect.height
+			) {
+			//UIImage is bigger than projectile image
+			/*Scaling of image is allowed inside the margins given in the if statement*/
+			projectileImage.SetNativeSize();
+		} else {
+			/*Scaling not allowed, scaled back to normal*/
+			projectileImage.rectTransform.sizeDelta = new Vector2(orginPWidth,orginPHeight);
+		}
+
 	}
 
 	private TowerSoCollection.TowerCollectionClass GetTowerCollection(int id) {
