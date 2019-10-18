@@ -106,6 +106,7 @@ public class PlaceItem : MonoBehaviour
 
 
     #region Place Method
+
     public void Place() {
 
         if (Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {
