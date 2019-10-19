@@ -91,7 +91,11 @@ public class PlaceItem : MonoBehaviour
         hasItemInHand = true;
     }
     public void RemoveHold() {
-        if (item != null) {
+        if (item != null || dummyItem != null) {
+			GameObject dummytower = GameObject.FindGameObjectWithTag("Dummy");
+			if(dummytower != null) {
+				Destroy(dummytower);
+			}
             item = null;
 			dummyItem = null;
             hasItemInHand = false;
@@ -102,6 +106,7 @@ public class PlaceItem : MonoBehaviour
 
 
     #region Place Method
+
     public void Place() {
 
         if (Input.GetMouseButtonDown(0) && Time.time > lastTimePlaced) {

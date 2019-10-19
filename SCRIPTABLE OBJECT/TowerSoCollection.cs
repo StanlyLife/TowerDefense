@@ -8,31 +8,34 @@ public class TowerSoCollection : ScriptableObject
 {
 	[System.Serializable]
 	public class TowerCollectionClass {
-		[Header ("Common Attributes")]
 		public string name;
-		public int ID;
-		
+		[Header("Insert in inspector")]
 		public Tower _Tower;
-
-		[Header("Info")]
-		public int price;
-		public int sellPrice;
 		[Space (10)]
 		public Sprite towerImage;
 		public Sprite ProjectileImage;
-		[Space (10)]
-		[Header("Description")]
-		[Multiline]
+		[Header ("Leave empty")]
+		public int ID;
+		[HideInInspector]
+		public int price;
+		[HideInInspector]
+		public int sellPrice;
+		[HideInInspector]
 		public string description;
 	}
 
 	public TowerCollectionClass[] Towers;
 
-	public void OnEnable() {
-		
+	void OnEnable() {
 		for(int i = 0; i < Towers.Length; i++) {
-			Towers[i].name = Towers[i]._Tower.TowerName;
-			Towers[i].ID = Towers[i]._Tower.towerID;
+			try {
+				Towers[i].name = Towers[i]._Tower.TowerName;
+				Towers[i].ID = Towers[i]._Tower.towerID;
+				Towers[i].sellPrice = Towers[i]._Tower.sellPrice;
+				Towers[i].price = Towers[i]._Tower.storePrice;
+			}catch (System.Exception e) when (e is System.NullReferenceException) {
+				//That array item is not created yet
+			}
 		}
 
 	}
