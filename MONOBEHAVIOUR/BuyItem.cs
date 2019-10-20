@@ -9,7 +9,8 @@ public class BuyItem : MonoBehaviour
     public TowerCollection towerCollection;
 	public TowerSoCollection tso;
 	public GameSettings gs;
-
+	[SerializeField]
+	private NemHandler notenoughmoney;
 
 	public void buy(int id) {
 		TowerSoCollection.TowerCollectionClass tower = GetTowerCollection(id);
@@ -19,7 +20,7 @@ public class BuyItem : MonoBehaviour
 			print("Not enough money");
 			print("Mapmoney: " + gs.MapMoney);
 			print("price: " + tower.price);
-			//Display You do not hace enough money
+			notenoughmoney.playAnimation();
 		}
 	}
 

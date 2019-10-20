@@ -26,8 +26,11 @@ public class PlaceItem : MonoBehaviour
     public float lastTimePlaced;
     public bool hasItemInHand = false;
 
-	//TODO
-	//Remove money on hold
+	[SerializeField]
+	private NemHandler notenoughmoney;
+
+
+	//a little too unorganised 
 
     public void Start() {
         Instantiate(RadiusCircle, getCursorPosition(), RadiusCircle.transform.rotation);
@@ -130,6 +133,7 @@ public class PlaceItem : MonoBehaviour
 
 				} else {
 					print("Not enough money from place item");
+					notenoughmoney.playAnimation();
 					//Not enough money, display
 				}
 			} else {
