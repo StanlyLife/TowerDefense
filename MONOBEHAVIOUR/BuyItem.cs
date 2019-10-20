@@ -14,11 +14,11 @@ public class BuyItem : MonoBehaviour
 
 	public void buy(int id) {
 		TowerSoCollection.TowerCollectionClass tower = GetTowerCollection(id);
-		if(tower.price <= gs.MapMoney && tower._Tower.storePrice <= gs.MapMoney) {
+		if(tower.price <= gs.MapMoney) {
             cursor.Hold(towerCollection.Towers[id-101].DummyTower.gameObject , towerCollection.Towers[id-101].RealTower.gameObject);
 		} else {
 			print("Not enough money");
-			print("Mapmoney: " + gs.MapMoney);
+			print("Money: " + gs.MapMoney);
 			print("price: " + tower.price);
 			notenoughmoney.playAnimation();
 		}
