@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-	//EnemyList
-	//WaveList
 	[Header("Game Settings")]
 	public GameSettings gameSettings;
 	int spawnerNumber;
@@ -14,8 +12,6 @@ public class Spawner : MonoBehaviour
 	public int[] enemySpawnAmount;
 
     public float[] timeBetweenSpawns;
-
-
     private float spawnTimer;
 
     private void Awake() {
@@ -41,7 +37,7 @@ public class Spawner : MonoBehaviour
 		int count = 0;
 		foreach (GameObject enemy in enemyType) {
 			for (int x = 1; x <= amountToSpawn[count];) {
-				if (!gameSettings.gsWaveDone && !gameSettings.isPaused) {
+				if (!gameSettings.gameSettingsWaveDone && !gameSettings.isPaused) {
 					gameSettings.enemiesAmount++;
 					Instantiate(enemy, gameObject.transform);
 					x++;
