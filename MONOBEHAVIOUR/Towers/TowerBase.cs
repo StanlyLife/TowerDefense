@@ -63,7 +63,11 @@ public class TowerBase : MonoBehaviour
 	}
 	private void SetAttributes() {
 		//SCRIPTS
-		gameSettings = _Tower.gameSettings;
+		gameSettings = GameObject.FindGameObjectWithTag("MapSettings").GetComponent<GameSettings>();
+		if (gameSettings == null) {
+			gameSettings = _Tower.gameSettings;
+		}
+		
 		//GAMEOBJECTS
 		GoProjectile = _Tower.projectile;
 		visualiseRoad = _Tower.roadGizmo;

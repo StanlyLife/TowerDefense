@@ -15,10 +15,22 @@ public class PlaceItem : MonoBehaviour
     [Header("Placeable Script")]
     public Placeable canBePlaced;
 
+	[Header("GameSettings")]
+	[SerializeField]
+	private GameSettings gs;
+	[SerializeField]
+	[Header("TowerInformation")]
+	private TowerSoCollection tso;
     [Header("Debugs")]
     public float timeBetweenPlace;
     public float lastTimePlaced;
     public bool hasItemInHand = false;
+
+	[SerializeField]
+	private NemHandler notenoughmoney;
+
+
+	//a little too unorganised 
 
     public void Start() {
         Instantiate(RadiusCircle, getCursorPosition(), RadiusCircle.transform.rotation);
@@ -91,8 +103,8 @@ public class PlaceItem : MonoBehaviour
         hasItemInHand = true;
     }
     public void RemoveHold() {
-        if (item != null || dummyItem != null) {
 			GameObject dummytower = GameObject.FindGameObjectWithTag("Dummy");
+        if (item != null || dummyItem != null || dummytower != null) {
 			if(dummytower != null) {
 				Destroy(dummytower);
 			}
@@ -114,7 +126,16 @@ public class PlaceItem : MonoBehaviour
             Vector3 cursorPosition = getCursorPosition();
 
             if (canBePlaced.canBePlaced && item != null) {
-                Instantiate(item, cursorPosition, gameObject.transform.rotation);
+				/*Buy item*/
+				if (gs.MapMoney >= item.GetComponent<TowerBase>()._Tower.storePrice) {
+					gs.MapMoney -= item.GetComponent<TowerBase>()._Tower.storePrice;
+					Instantiate(item, cursorPosition, gameObject.transform.rotation);
+
+				} else {
+					print("Not enough money from place item");
+					notenoughmoney.playAnimation();
+					//Not enough money, display
+				}
 			} else {
 				print("cannot place, check Place()");
 			}

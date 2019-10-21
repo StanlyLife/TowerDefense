@@ -1,44 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameSettings : MonoBehaviour
-{
+public class GameSettings : MonoBehaviour {
 	[Header("WaveSpawner")]
-	public WaveSpawner wave;
-	[Tooltip ("game settings own attribute, is spawning done, forces wave")]public bool gsWaveDone = false;
-	[Header("Sound settings")]
-	public float masterLevel;
-	public float soundLevel;
-	public float musicLevel;
+	[SerializeField]
+	private WaveSpawner wave;
 
+	#region unique settings each game
 	[Header("Game Settings")]
-	[Tooltip ("1 by default")]
+
+	[Tooltip("1 by default")]
 	public float gameSpeed = 1;
-	[Tooltip ("0 by defaut, for easy")]
+
+	[Tooltip("0 by defaut, easy")]
 	public int difficulty = 0; //0 easy, 1 medium, 2 hard, 3 impossible
-	[Tooltip("Is game paused, true false")]
-	public bool isPaused = false;
-	[Header("Game attributes")]
+
 	public int gameHealth;
 	public int MapMoney;
 
-	public int enemiesAmount;
-	private bool waveStart = false;
+	public bool isPaused = false;
+
+	[Tooltip("game settings own attribute, is spawning done, forces wave")]
+	public bool gameSettingsWaveDone = false;
+	#endregion
+
+	#region sound settings
+	[Header("Sound settings")]
+	[Range (0,100)]
+	public float masterLevel;
+	[Range (0,100)]
+	public float soundLevel;
+	[Range (0,100)]
+	public float musicLevel;
+	#endregion
 
 
+
+	#region wave info
 	[Header("NextWave button")]
-	[SerializeField]
-	private GameObject button;
+	public Button StartButton;
+
+	[HideInInspector]
+	public int enemiesAmount;
 
 	[HideInInspector]
 	public bool[] doneSpawning;
-	private bool allDoneSpawning;
+
 	[HideInInspector]
 	public int currentWave = 0;
+	#endregion
+
+	#region death screen info
+	[Header("Death transition panel")]
+	public GameObject deadTransition;
+	public DeadTransition deadScreen;
+	#endregion
+
+	private bool allDoneSpawning;
+	private bool waveStart = false;
+	
 	private void FixedUpdate() {
 		if (waveStart) {
-
+			StartButton.interactable = false;
 			foreach(bool spawner in doneSpawning) {
 				if (spawner) {
 					allDoneSpawning = true;
@@ -62,6 +87,7 @@ public class GameSettings : MonoBehaviour
 			waveStart = false;
 			isPaused = true;
 			gameSpeed = 1;
+			StartButton.interactable = true;
 			//Activate button
 		}
 
@@ -97,5 +123,11 @@ public class GameSettings : MonoBehaviour
 
 	public void takeDamage(int damage) {
 		gameHealth -= damage;
+		if (gameHealth <= 0) {
+			deadTransition.SetActive(true);
+			isPaused = true;
+			gameSpeed = 0;
+			deadScreen.PlayAnimation();
+		}
 	}
 }
