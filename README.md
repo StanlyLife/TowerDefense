@@ -19,6 +19,6 @@ started learning underways.
 I have learned alot building this game and will probably try making another one in the future. but my next step will
 be towards writing clean code and using clean architecture aswell as eventually learning the .Net framework for c#.
 
-#### click the image to play game
+#### click the image to play game (not available now)
 
 [![alt text](https://i.gyazo.com/1fe27a707cfbd22547c334e5e3e867a6.jpg)](https://placeholder.com)
