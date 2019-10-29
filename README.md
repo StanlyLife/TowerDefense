@@ -1,5 +1,5 @@
 # TowerDefense
-#### Tower defense game made with unity and C#
+#### Tower defense game made with unity and C# 
 
 this is the third game i have made with C# and untiy. it was originaly made to learn the basics and challenges
 of making a tower defense game before making a bigger and better 3D version with multiple maps and challenges.
