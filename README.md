@@ -21,4 +21,4 @@ be towards writing clean code and using clean architecture aswell as eventually 
 
 #### click the image to play game (not available now)
 
-[![alt text](https://i.gyazo.com/1fe27a707cfbd22547c334e5e3e867a6.jpg)](https://placeholder.com)
+![alt text](https://i.gyazo.com/1fe27a707cfbd22547c334e5e3e867a6.jpg)
